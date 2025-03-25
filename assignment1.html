@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Time Zone Clocks</title>
+    <style>
+        body {
+            background-color: #16151f;
+            font-family: Arial, sans-serif;
+            text-align: center;
+
+            background-image: url('https://static.vecteezy.com/system/resources/previews/021/437/160/non_2x/world-map-on-black-color-illustration-world-map-template-with-continents-north-and-south-america-europe-and-asia-africa-and-australia-free-png.png');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+        #timeZoneList {
+            display: none;
+            width: 500px;
+            margin: 20px auto;
+            padding: 30px 20px;
+            list-style-type: none;
+        }
+        #timeZoneList li {
+            background-color: #7372b6;
+            color: rgb(245, 245, 245);
+            margin: 3px;
+            padding: 7px 10px;
+            border-radius: 10px;
+        }
+        #timeZoneList li:hover {
+            background-color: #271e79;
+        }
+        .clockContainer {
+            display: inline-block;
+            margin: 100px 20px 0;
+            position: relative;
+            width: 250px;
+            height: 250px;
+            background-color: rgb(246, 242, 242);
+            border-radius: 50%;
+            border-style:outset;
+            border-color: rgb(43, 29, 29);
+            border-width: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            
+        
+        }
+
+        
+        .clockContainer:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(233, 242, 255, 0.7);
+        }
+
+        .clockContainer div {
+            color: #f6f1cb; 
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 15px; 
+            display: block;
+        }
+
+
+        .removeButton {
+            position: absolute;
+            top: 7px;
+            right: 7px;
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+        }
+        .removeButton:hover{
+            transform: scale(1.01);
+        }
+        .clock canvas {
+            width: 100%;
+            height: 100%;
+            margin: -13px 0px 0px 0;
+            position: relative;
+  
+            border-radius: 50%;
+
+        }
+
+        #addzoneButton{
+            color: rgb(16, 15, 15);
+            background-image: linear-gradient(white, rgb(57, 43, 125));
+            border-radius: 5px;
+            border-style: hidden;
+            padding: 10px;
+            margin-top: 20px;
+            
+        }
+        #addzoneButton:hover{
+            transform: scale(1.03);
+            box-shadow: 50px rgba(255, 250, 247, 0.7);
+        }
+        
+    </style>
+</head>
+<body>
+    
+    <button id="addzoneButton">Add Time Zone</button>
+    <ul id="timeZoneList">
+        <li data-timezone="Asia/Kolkata">India (IST)</li>
+        <li data-timezone="Asia/Shanghai">China (CST)</li>
+        <li data-timezone="Asia/Hong_Kong">Hong Kong (HKT)</li>
+        <li data-timezone="America/New_York">New York (EST)</li>
+        <li data-timezone="Europe/London">London (GMT)</li>
+        <li data-timezone="Europe/Paris">Paris (CET)</li>
+        <li data-timezone="Asia/Tokyo">Tokyo (JST)</li>
+        <li data-timezone="Australia/Sydney">Sydney (AEST)</li>
+    </ul>
+    <div id="clocksContainer"></div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+  integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+  crossorigin="anonymous"></script>
+    <script src="Customizable-Analog-Alarm-Clock-with-jQuery-Canvas-thooClock/js/jquery.thooClock.js"></script>
+        <script>
+        $(document).ready(function() 
+        {
+            $('#addzoneButton').click(function() 
+            {
+                $('#timeZoneList').toggle();
+            }
+            );
+
+            $('#timeZoneList li').click(function() 
+            {
+                var timezone = $(this).data('timezone');
+                var name = $(this).text();
+                addClock(timezone, name);
+                $('#timeZoneList').hide();
+            });
+
+            function addClock(timezone, name) {
+                var clockId = 'clock' + $('.clockContainer').length;
+                var clockHtml = '<div class="clockContainer">' +
+                    '<button class="removeButton">&times;</button>' +
+                    '<div class="clock" id="' + clockId + '"></div>' +
+                    '<div>' + name + '</div>' +
+                    '</div>';
+                $('#clocksContainer').append(clockHtml);
+
+                $('#' + clockId).thooClock({
+                    size: 210,
+                    showNumerals: true,
+                    brandText: name,
+                    timeZone: timezone
+                });
+
+                $('.removeButton').click(function() {
+                    $(this).parent().remove();
+                });
+            }
+        });
+    </script>
+</body>
+</html>
